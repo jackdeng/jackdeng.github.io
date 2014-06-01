@@ -9,15 +9,12 @@ define(function(require, exports, module){
    	var RenderNode = require('famous/core/RenderNode');
    	var Transitionable = require('famous/transitions/Transitionable');
    	var TouchSync = require('famous/inputs/TouchSync');
-   	var Engine = require('famous/core/Engine');
 
     // colors
     var NORMAL_STATE = "#fa5c4f";
     var PRESSED_STATE = "#f94536";
 
-    function IntroView(context) {
-    	this.context = context;
-
+    function IntroView() {
     	View.apply(this);
 
 		// your app here
@@ -68,16 +65,15 @@ define(function(require, exports, module){
 	            backgroundColor: PRESSED_STATE 
 	        });
 	    });    
-	    touch.on('end', function() {
+
+	    // bind this to be this current view on callback.
+	    touch.on('end', _.bind(function() {
 	        helloSurface.setProperties({
 	            backgroundColor: NORMAL_STATE 
 	        });
 	        // do something with the main context.
-	        console.log("emitting event mainViewStart");
-	        alert("emitting event mainViewStart");
-	        this._eventOutput.emit('mainViewStart');
-	        //this.trigger('mainViewStart');
-	    });
+	        this._eventOutput.emit('mainViewStartEvent');
+	    }, this));
     }
 
     // create the constructor for IntroView. 
